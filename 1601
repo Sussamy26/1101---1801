@@ -1,0 +1,52 @@
+01
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        left = 0
+
+        for right in range(len(nums)):
+            if nums[right] != 0:
+                nums[right], nums[left] = nums[left], nums[right]
+                left += 1
+        
+        return nums
+
+02
+class Solution:
+    def canWinNim(self, n: int) -> bool:
+        return n%4!=0
+
+03
+class Solution:
+    def isPowerOfThree(self, n: int) -> bool:
+        if n <= 0:
+            return False
+        while n % 3 == 0:
+            n //= 3
+        return n == 1
+
+04
+class NumArray:
+    def __init__(self, nums: List[int]):
+        # Initialize the prefix_sum array with a 0 at the start
+        self.prefix_sum = [0]
+        
+        # Precompute the prefix sums
+        for num in nums:
+            self.prefix_sum.append(self.prefix_sum[-1] + num)
+
+    def sumRange(self, left: int, right: int) -> int:
+        # Calculate the sum of elements from left to right using the prefix_sum array
+        return self.prefix_sum[right + 1] - self.prefix_sum[left]
+
+
+05
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+
+        s = s.split()
+
+        return (len(set(pattern)) ==
+                len(set(s)) ==
+                len(set(zip_longest(pattern,s))))
+
+
