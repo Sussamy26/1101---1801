@@ -1,0 +1,132 @@
+01
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        char_index_s = {}
+        char_index_t = {}
+
+        for i in range(len(s)):
+            if s[i] not in char_index_s:
+                char_index_s[s[i]] = i
+
+            if t[i] not in char_index_t:
+                char_index_t[t[i]] = i
+            
+            if char_index_s[s[i]] != char_index_t[t[i]]:
+                return False
+
+        return True
+02
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        i, j = len(s) - 1, len(p) - 1
+        return self.backtrack({}, s, p, i, j)
+
+    def backtrack(self, cache, s, p, i, j):
+        key = (i, j)
+        if key in cache:
+            return cache[key]
+
+        if i == -1 and j == -1:
+            cache[key] = True
+            return True
+
+        if i != -1 and j == -1:
+            cache[key] = False
+            return cache[key]
+
+        if i == -1 and p[j] == '*':
+            k = j
+            while k != -1 and p[k] == '*':
+                k -= 2
+            
+            if k == -1:
+                cache[key] = True
+                return cache[key]
+            
+            cache[key] = False
+            return cache[key]
+        
+        if i == -1 and p[j] != '*':
+            cache[key] = False
+            return cache[key]
+
+        if p[j] == '*':
+            if self.backtrack(cache, s, p, i, j - 2):
+                cache[key] = True
+                return cache[key]
+            
+            if p[j - 1] == s[i] or p[j - 1] == '.':
+                if self.backtrack(cache, s, p, i - 1, j):
+                    cache[key] = True
+                    return cache[key]
+        
+        if p[j] == '.' or s[i] == p[j]:
+            if self.backtrack(cache, s, p, i - 1, j - 1):
+                cache[key] = True
+                return cache[key]
+
+        cache[key] = False
+        return cache[key]
+
+03
+class Solution:
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        ans = ListNode(0, head)
+        dummy = ans
+
+        while dummy:
+            while dummy.next and dummy.next.val == val:
+                dummy.next = dummy.next.next
+            dummy = dummy.next
+        
+        return ans.next
+
+04
+class Solution:
+    def reverse(self, x: int) -> int:
+        res = 0
+        if x < 0:
+            res = int(str(x)[1:][::-1]) * -1
+        else:
+            res = int(str(x)[::-1])
+        
+        if res > 2 ** 31 - 1 or res < -2 ** 31:
+            return 0
+        
+        return res
+
+05
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        s = s.strip()  # Remove leading/trailing spaces
+        if not s:
+            return 0
+
+        sign, i, res = 1, 0, 0
+
+        # Check for sign
+        if s[0] == '-':
+            sign = -1
+            i += 1
+        elif s[0] == '+':
+            i += 1
+
+        while i < len(s) and s[i].isdigit():
+            res = res * 10 + int(s[i])
+
+            # Handle overflow
+            if sign * res > 2**31 - 1:
+                return 2**31 - 1
+            if sign * res < -2**31:
+                return -2**31
+
+            i += 1
+
+        return sign * res
+
+
+
+
+
+
+        
