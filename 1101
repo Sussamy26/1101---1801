@@ -1,0 +1,114 @@
+01
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        
+        dummy = ListNode()
+        res = dummy
+
+        total = carry = 0
+
+        while l1 or l2 or carry:
+            total = carry
+
+            if l1:
+                total += l1.val
+                l1 = l1.next
+            if l2:
+                total += l2.val
+                l2 = l2.next
+            
+            num = total % 10
+            carry = total // 10
+            dummy.next = ListNode(num)
+            dummy = dummy.next
+        
+        return res.next
+
+02
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        if not s:
+            return ""
+
+        def expand_around_center(s: str, left: int, right: int):
+            while left >= 0 and right < len(s) and s[left] == s[right]:
+                left -= 1
+                right += 1
+            return right - left - 1
+
+
+        start = 0
+        end = 0
+
+        for i in range(len(s)):
+            odd = expand_around_center(s, i, i)
+            even = expand_around_center(s, i, i + 1)
+            max_len = max(odd, even)
+            
+            if max_len > end - start:
+                start = i - (max_len - 1) // 2
+                end = i + max_len // 2
+        
+        return s[start:end+1]
+
+03
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        left = max_length = 0
+        char_set = set()
+        
+        for right in range(len(s)):
+            while s[right] in char_set:
+                char_set.remove(s[left])
+                left += 1
+
+            char_set.add(s[right])
+            max_length = max(max_length, right - left + 1)
+        
+        return max_length
+
+04
+class Solution:
+    def findMedianSortedArrays(self, nums1, nums2):
+        # Merge the arrays into a single sorted array.
+        merged = nums1 + nums2
+
+        # Sort the merged array.
+        merged.sort()
+
+        # Calculate the total number of elements in the merged array.
+        total = len(merged)
+
+        if total % 2 == 1:
+            # If the total number of elements is odd, return the middle element as the median.
+            return float(merged[total // 2])
+        else:
+            # If the total number of elements is even, calculate the average of the two middle elements as the median.
+            middle1 = merged[total // 2 - 1]
+            middle2 = merged[total // 2]
+            return (float(middle1) + float(middle2)) / 2.0
+05
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows == 1 or numRows >= len(s):
+            return s
+
+        idx, d = 0, 1
+        rows = [[] for _ in range(numRows)]
+
+        for char in s:
+            rows[idx].append(char)
+            if idx == 0:
+                d = 1
+            elif idx == numRows - 1:
+                d = -1
+            idx += d
+
+        for i in range(numRows):
+            rows[i] = ''.join(rows[i])
+
+        return ''.join(rows)   
+
+
+
+03
