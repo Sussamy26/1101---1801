@@ -1,0 +1,79 @@
+01
+class MyQueue:
+
+    def __init__(self):
+        self.input = []
+        self.output = []
+
+    def push(self, x: int) -> None:
+        self.input.append(x)
+
+    def pop(self) -> int:
+        self.peek()  # Ensure output stack has the current front
+        return self.output.pop()
+
+    def peek(self) -> int:
+        if not self.output:  # Transfer elements if output stack is empty
+            while self.input:
+                self.output.append(self.input.pop())
+        return self.output[-1]
+
+    def empty(self) -> bool:
+        return not self.input and not self.output
+02
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        list_vals = []
+        while head:
+            list_vals.append(head.val)
+            head = head.next
+        
+        left, right = 0, len(list_vals) - 1
+        while left < right and list_vals[left] == list_vals[right]:
+            left += 1
+            right -= 1
+        return left >= right
+03
+class Solution:
+    def isPowerOfTwo(self, n: int) -> bool:
+        for i in range(31):
+            ans = 2 ** i
+            if ans == n:
+                return True
+        return False
+
+04
+class Solution(object):
+    def summaryRanges(self, nums):
+        res = []
+        if not nums:
+            return res
+        start = nums[0]
+        end = nums[0]
+        for n in nums[1:]:
+            if n == end + 1:
+                end = n
+            else:
+                if start == end:
+                    res.append(str(start))
+                else:
+                    res.append(str(start) + "->" + str(end))
+                start = n
+                end = n
+        if start == end:
+            res.append(str(start))
+        else:
+            res.append(str(start) + "->" + str(end))
+        return res
+
+
+05
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        sorted_s = sorted(s)
+        sorted_t = sorted(t)
+        return sorted_s == sorted_t
+
+
+
+        
