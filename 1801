@@ -1,0 +1,54 @@
+01
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        buy_price = prices[0]
+        profit = 0
+
+        for p in prices[1:]:
+            if buy_price > p:
+                buy_price = p
+            
+            profit = max(profit, p - buy_price)
+        
+        return profit
+
+02
+class Solution(object):
+    def getRow(self, rowIndex):
+        row = [1]
+
+        for _ in range(rowIndex):
+            row = [left + right for left, right in zip([0]+row, row+[0])]
+            
+        return row    
+
+03
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        if not root:
+            return False
+        
+        if not root.left and not root.right:
+            return targetSum - root.val == 0
+        
+        targetSum -= root.val
+        
+        return self.hasPathSum(root.left, targetSum) or self.hasPathSum(root.right, targetSum)
+
+04
+from typing import List
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        xor_sum = 0
+        for num in nums:
+            xor_sum ^= num # XOR the current number with the running XOR sum
+        return xor_sum # The result is the single number
+
+05
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        s = ''.join(c.lower() for c in s if c.isalnum())
+        return s == s[::-1]
+      
+        
